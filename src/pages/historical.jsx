@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Line } from "react-chartjs-2";
 
 const Historical = () => {
   const location = useLocation();
@@ -9,8 +10,9 @@ const Historical = () => {
   const [deaths, setDeaths] = useState(null);
   const [recovered, setRecovered] = useState(null);
   const [filteredCases, setFilteredCases] = useState(null);
-  const [filteredDeaths, setFilteredDeaths] = useState(null); // State for filtered deaths
-  const [filteredRecovered, setFilteredRecovered] = useState(null); // State for filtered recovered
+  const [filteredDeaths, setFilteredDeaths] = useState(null);
+  const [filteredRecovered, setFilteredRecovered] = useState(null);
+  
 
   useEffect(() => {
     axios
@@ -56,31 +58,61 @@ const Historical = () => {
   }, [dateData, recovered]);
 
   const convertDate = (index) => {
-    const [month, day, year] = index.split('/');
+    const [month, day, year] = index.split("/");
     return `${month} ${year}`;
+  };
+
+  const prepareChartData = (data, labels) => {
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: "Total Cases",
+          data: data,
+          borderColor: "rgba(75, 192, 192, 1)",
+          fill: false,
+        },
+      ],
+    };
   };
 
   return (
     <div>
       <p>{dateData}</p>
       <h2>Cases Data:</h2>
-      <ul>
-        {filteredCases &&
-          filteredCases.map((index) => (
-            <li key={index}>
-              {convertDate(index)}: {cases[index]}
-              <span> (This is the selected date)</span>
-            </li>
-          ))}
-      </ul>
+      {filteredCases && (
+        <Line
+          data={prepareChartData(
+            filteredCases.map((index) => cases[index]),
+            filteredCases.map((index, value) => filteredCases[value])
+          )}
+          options={{
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Date",
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Cases",
+                },
+              },
+            },
+          }}
+        />
+      )}
 
       <h2>Deaths Data:</h2>
       <ul>
         {filteredDeaths &&
           filteredDeaths.map((index) => (
             <li key={index}>
-              {convertDate(index)}: {deaths[index]}
-              <span> (This is the selected date)</span>
+              <p>
+                {convertDate(index)}: {deaths[index]} คน
+              </p>
             </li>
           ))}
       </ul>
@@ -90,8 +122,9 @@ const Historical = () => {
         {filteredRecovered &&
           filteredRecovered.map((index) => (
             <li key={index}>
-              {convertDate(index)}: {recovered[index]}
-              <span> (This is the selected date)</span>
+              <p>
+                {convertDate(index)}: {recovered[index]} คน
+              </p>
             </li>
           ))}
       </ul>
