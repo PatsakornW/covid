@@ -17,12 +17,19 @@ const Search = () => {
     navigate("/historical", { state: { dateData: formattedDate } });
   };
   return (
-    <DatePicker
+  <div className="flex-col ">
+    <p>เลือกเดือน </p>
+    <p>(อัพเดทล่าสุดถึงแค่เดือน Mar 2023)</p>
+<DatePicker
+className="border p-2 rounded"
       dateFormat="MM/yyyy"
       selected={dateData}
       onChange={handleDateChange}
       showMonthYearPicker
     />
+  </div>
+    
+   
   );
 };
 

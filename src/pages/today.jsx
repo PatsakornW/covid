@@ -42,10 +42,17 @@ const Today = () => {
 
     },
   ];
+  const currentDate = new Date();
+const day = currentDate.getDate();
+const month = currentDate.getMonth() + 1; // เพิ่ม 1 เนื่องจากเดือนใน JavaScript เริ่มจาก 0
+const year = currentDate.getFullYear();
+
+const formattedDate = `${day}/${month}/${year}`;
 
   return (
-    <div className="flex flex-wrap justify-center space-x-10">
-      {cardData.map((item, index) => (
+    <div className="flex flex-wrap justify-center gap-4">
+      <p className="w-full ms-4">อัพเดทล่าสุด {formattedDate}</p>
+      {cardData?.map((item, index) => (
         <Card
           key={index}
           title_new={item.title_new}
