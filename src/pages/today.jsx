@@ -4,12 +4,15 @@ import Card from "../components/card";
 
 const Today = () => {
   const [covidToday, setCovidToday] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   console.log(covidToday);
   useEffect(() => {
     axios
       .get("https://disease.sh/v3/covid-19/all")
       .then((response) => {
         setCovidToday(response.data);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error("Error :", error);
@@ -50,18 +53,28 @@ const year = currentDate.getFullYear();
 const formattedDate = `${day}/${month}/${year}`;
 
   return (
-    <div className="flex flex-wrap justify-center gap-4">
+    <div >
       <p className="w-full ms-4">อัพเดทล่าสุด {formattedDate}</p>
-      {cardData?.map((item, index) => (
-        <Card
-          key={index}
-          title_new={item.title_new}
-          today={item.today}
-          title_total={item.title_total}
-          total={item.total}
-          bg={item.bg}
-        />
-      ))}
+      { isLoading ? (
+        <p className="flex w-full justify-center mt-5 text-2xl font-bold tracking-wider">Loading</p>
+      ) : (
+        <div className="flex flex-wrap gap-4 justify-center w-full">
+           {cardData?.map((item, index) => (
+          <Card
+            key={index}
+            title_new={item.title_new}
+            today={item.today}
+            title_total={item.title_total}
+            total={item.total}
+            bg={item.bg}
+          />
+        ))}
+        </div>
+       
+      )
+
+      }
+    
     </div>
   );
 };

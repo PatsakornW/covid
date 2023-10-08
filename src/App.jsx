@@ -10,7 +10,7 @@ function App() {
         <div className="flex-grow">
           <Navbar />
         </div>
-        <div >
+        <div className="lg:flex-none flex justify-center w-full lg:w-auto lg:mt-0 mt-4">
           <Search />
         </div>
       </div>
