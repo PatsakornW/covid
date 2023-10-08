@@ -38,11 +38,8 @@ const Chart = ({
 
   return (
     <div>
-   
       {filteredCases && (
         <Line
-      
-
           data={Chartdata(filteredCases.map((index) => cases[index]))}
           options={{
             responsive: true,

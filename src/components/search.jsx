@@ -18,8 +18,7 @@ const Search = () => {
   };
   return (
     <DatePicker
-
-      className="border p-2 rounded"
+      className="border-2 p-2 rounded-xl  bg-gray-100"
       dateFormat="MM/yyyy"
       selected={dateData}
       onChange={handleDateChange}

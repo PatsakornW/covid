@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
+    <div className="bg-slate-200 h-screen">
       <div className="p-10 flex flex-wrap items-center">
         <div className="flex-grow">
           <Navbar />
